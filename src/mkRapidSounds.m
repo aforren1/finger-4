@@ -5,7 +5,7 @@ function snd = mkRapidSounds
     try PsychPortAudio('Close'); catch warning('No active audio device') end
 
     basedir = 'misc/sounds/';
-    [right{1}, Fs] = wavread([basedir, 'wrong.wav']);
+    [right{1}, Fs] = wavread([basedir, 'beep.wav']);
     [right{2}, Fs] = wavread([basedir, 'orch1.wav']);
     [right{3}, Fs] = wavread([basedir, 'orch2.wav']);
     [right{4}, Fs] = wavread([basedir, 'orch3.wav']);
@@ -16,7 +16,7 @@ function snd = mkRapidSounds
     InitializePsychSound(1);
     pamaster = PsychPortAudio('Open', [], 9, 1, Fs, 2, []);
     PsychPortAudio('Start', pamaster, 0, 0, 1);
-    PsychPortAudio('Volume', pamaster, 0.5);
+    %PsychPortAudio('Volume', pamaster, 0.5);
     snd = zeros(1, length(right));
     for ii = 1:length(right)
         snd(ii) = PsychPortAudio('OpenSlave', pamaster, 1);

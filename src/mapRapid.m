@@ -7,7 +7,7 @@ function tgt_out = mapRapid(tgt)
     tgt_out.swapped = tgt(:, 5);
     tgt_out.img_type = tgt(:, 6);
     tgt_out.finger = tgt(:, 7);
-    tgt_out.t_img = tgt(:, 8);
+    tgt_out.t_img = tgt(:, 8); % unused in rapid
     tgt_out.swap1 = tgt(:, 9);
     tgt_out.swap2 = tgt(:, 10);
 end

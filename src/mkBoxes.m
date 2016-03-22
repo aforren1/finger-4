@@ -5,7 +5,7 @@ function rect_locs = mkBoxes(scrn, fingers)
     n_finger = length(fingers);
 
     spacing = linspace(.2, .8, n_finger);
-    rect_area = (spacing(2) - spacing(1))/1.5;
+    rect_area = (spacing(2) - spacing(1))/2;
     xscrn = scrn.size(3);
     yscrn = scrn.size(4);
 

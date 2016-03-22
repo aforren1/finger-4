@@ -9,11 +9,17 @@ function err = testTrialPt1(kybrd)
         ii = 1;
         [resp_consts, scrn_consts, misc_consts] = mkConstants;
         tgt = mapRapid(dlmread(['misc/tfiles/','dy3_bk4_ez0_sw1_sh1.tgt']));
+        tgt.id = 55;
         fingers = unique(tgt.finger);
         dev = mkRespDev(kybrd, fingers, resp_consts);
-        scrn = mkScreen(false, true, scrn_consts); % small, skip tests
+        scrn = mkScreen(true, true, scrn_consts); % small, skip tests
         rawimg = mkRawImg(1); %shapes
         ptbimg = mkPtbImg(rawimg, scrn);
+
+        Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
+        mkBoxes(scrn, dev.valid_indices);
+        drawCCCOMBO(scrn, CCCOMBO);
+        vbl = Screen('Flip', scrn.window);
 
         Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
         mkBoxes(scrn, dev.valid_indices);
@@ -21,8 +27,8 @@ function err = testTrialPt1(kybrd)
         Priority(scrn.priority);
         Screen('DrawTexture', scrn.window, ptbimg(tgt.finger(ii)));
 
-        t_ref = GetSecs; % I *think* this tells 'Flip' to return a projected time
-        t_img = Screen('Flip', scrn.window, t_ref + 0.5*scrn.ifi);
+        PsychPortAudio('Start', 1, 1, vbl + scrn.ifi, 0); % start audio at flip
+        t_img = Screen('Flip', scrn.window, vbl + 0.5*scrn.ifi);
         startDev(dev);
         new_press = nan(3,2); % store responses; (:,1) is
         update_scrn_press = zeros(1, length(dev.valid_indices));
@@ -79,7 +85,34 @@ function err = testTrialPt1(kybrd)
         end
         WaitSecs(.3); % show feedback for long enough
 
-        new_press
+        % coerce into frame
+        if strcmpi(dev.type, 'keyboard')
+            % 9 from tgt file, 9 from presses, id
+            output = nan(1,16);
+        elseif strcmpi(dev.type, 'force')
+            [traces, timestamp] = readFT(dev);
+            output = nan(length(timestamp), 16 + size(traces, 2));
+        end
+
+        output(:,1) = tgt.id;
+        output(:,2) = tgt.day(ii);
+        output(:,3) = tgt.block(ii);
+        output(:,4) = tgt.trial(ii);
+        output(:,5) = tgt.easy(ii);
+        output(:,6) = tgt.swapped(ii);
+        output(:,7) = tgt.img_type(ii);
+        output(:,8) = tgt.finger(ii);
+        output(:,9) = tgt.swap1(ii);
+        output(:,10) = tgt.swap2(ii);
+        output(:,11:12) = new_press(1,:); % convert nan to -1 for csv
+        output(:,13:14) = ifelse(isnan(new_press(2,1)), -1, new_press(2,:));
+        output(:,15:16) = ifelse(isnan(new_press(3,1)), -1, new_press(3,:));
+
+        if strcmpi(dev.type, 'force')
+            output(:, 17) = timestamp;
+            output(:, 18:size(traces, 2)) = traces;
+        end
+output
 
         stopDev(dev);
         PsychPortAudio('Close');
