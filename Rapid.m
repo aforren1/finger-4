@@ -7,12 +7,11 @@ function output = Rapid
         GetSecs;
         Screen('preference', 'verbosity', 1);
         warning('off', 'all');
-        addpath('misc', 'src'); %'misc/mfiles' for ifelse
+        addpath('misc', 'src', 'misc/mfiles'); % for ifelse
 
         %% constants and other variables used in this scope
         [c_resp, c_scrn, c_misc] = mkConstants; % `c_` denotes consts
         CCCOMBO = 0;
-        SCORE = GetSecs; % start timekeeping after getting everything set up
 
         %% Put together resources
         ui = mkUI;
@@ -33,6 +32,7 @@ function output = Rapid
         output = cell(1, max(tgt.trial));
         HideCursor;
         dev.zero_volts = mkCountdown(scrn, dev, c_misc);
+        SCORE = GetSecs; % start timekeeping after getting everything set up
 
         for ii = 1:length(tgt.trial)
             Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
@@ -45,7 +45,7 @@ function output = Rapid
                                                dev, snd, ii, CCCOMBO);
         end
 
-        SCORE = round(GetSecs - SCORE) * 100; % total duration of the block
+        SCORE = 100000 - (round(GetSecs - SCORE) * 100); % total duration of the block
         Screen('TextSize', scrn.window, 40);
         DrawFormattedText(scrn.window, ['FINAL SCORE: ', num2str(SCORE)],...
                           'center', 'center', scrn.txtcol);
@@ -62,17 +62,22 @@ function output = Rapid
         Priority(0);
         sca;
         ShowCursor;
-        try KbQueueRelease; catch warning('Not using the keyboard') end;
-        try PsychPortAudio('Close'); catch warning('No active audio device') end
+        try KbQueueRelease; catch
+            warning('Not using the keyboard')
+        end
+        try PsychPortAudio('Close'); catch
+            warning('No active audio device'), end
 
     catch ME
         Priority(0);
         sca;
         ShowCursor;
-        try KbQueueRelease; catch warning('Not using the keyboard') end;
-        try PsychPortAudio('Close'); catch warning('No active audio device') end
+        try KbQueueRelease; catch
+            warning('Not using the keyboard')
+        end;
+        try PsychPortAudio('Close'); catch
+            warning('No active audio device'), end
             % other nice things to clean up before failing
-        ME
         rethrow(ME);
     end
 
