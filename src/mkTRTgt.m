@@ -1,5 +1,5 @@
 
-function mkTimedRespTgt(day, block, easy, swapped, img_type, reps)
+function mkTRTgt(day, block, easy, swapped, img_type, reps)
  % day is the day (integer)
  % block is the block number (int)
  % easy is whether the time is easy (500 ms fixed img presentation) or not
@@ -9,7 +9,7 @@ function mkTimedRespTgt(day, block, easy, swapped, img_type, reps)
  % out_path is the output path
  % filename is determined by args, eg. 'dy1_bk1_ez1_sw0_sh1.tgt' would be
  % 'day 1, block 1, easy, no swaps, shapes'.
-out_path = '~/Documents/BLAM/finger-4/misc/tfiles/' % change for your comp!
+out_path = '~/Documents/BLAM/finger-4/misc/tfiles/'; % change for your comp!
 seed = day * block; % avoid explicit patterns in seeding
 %rng(seed);
 rand('seed', seed);

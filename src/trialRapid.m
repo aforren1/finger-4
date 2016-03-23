@@ -1,5 +1,5 @@
 function [output, CCCOMBO] = trialRapid(scrn, tgt, ptbimg,...
-                                        dev, snd, ii, CCCOMBO)
+                                        dev, ii, CCCOMBO)
 
     Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
     mkBoxes(scrn, dev.valid_indices);

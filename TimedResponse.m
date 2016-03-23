@@ -1,4 +1,4 @@
-function output = Rapid
+function output = TimedResponse
     % Rapid-fire training
     try % rethrow error after closing Screens, sounds, etc.
 
@@ -11,12 +11,11 @@ function output = Rapid
 
         %% constants and other variables used in this scope
         [c_resp, c_scrn, c_misc] = mkConstants; % `c_` denotes consts
-        CCCOMBO = 0;
 
         %% Put together resources
         ui = mkUI;
         scrn = mkScreen(ui.size, ui.skip, c_scrn);
-        tgt = mapRapid(dlmread(['misc/tfiles/', ui.tgt]));
+        tgt = mapTR(dlmread(['misc/tfiles/', ui.tgt]));
         tgt.id = ui.id;
 
         rawimg = mkRawImg(tgt.img_type(1));
@@ -25,30 +24,19 @@ function output = Rapid
             ptbimg([tgt.swap2 tgt.swap1]) = ptbimg([tgt.swap1 tgt.swap2]);
         end
 
-        % make the response device and figure out which are relevant
         dev = mkRespDev(ui.kybrd, unique(tgt.finger), c_resp);
 
-        mkRapidSounds;
+        mkTRSounds;
         output = cell(1, max(tgt.trial));
         HideCursor;
         dev.zero_volts = mkCountdown(scrn, dev, c_misc);
-        SCORE = GetSecs; % start timekeeping after getting everything set up
 
         for ii = 1:length(tgt.trial)
             Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
             mkBoxes(scrn, dev.valid_indices);
-            drawCCCOMBO(scrn, CCCOMBO);
             Screen('Flip', scrn.window);
-            [tempout{ii},CCCOMBO] = trialRapid(scrn, tgt, ptbimg,...
-                                               dev, ii, CCCOMBO);
+            [tempout{ii},CCCOMBO] = trialTR(scrn, tgt, ptbimg, dev, ii);
         end
-
-        SCORE = 100000 - (round(GetSecs - SCORE) * 100); % total duration of the block
-        Screen('TextSize', scrn.window, 40);
-        DrawFormattedText(scrn.window, ['FINAL SCORE: ', num2str(SCORE)],...
-                          'center', 'center', scrn.txtcol);
-        Screen('Flip', scrn.window);
-        WaitSecs(2);
 
         % format departing data
         output = cell2mat(tempout(1));
@@ -64,5 +52,3 @@ function output = Rapid
             % other nice things to clean up before failing
         rethrow(ME);
     end
-
-end
