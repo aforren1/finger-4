@@ -53,7 +53,7 @@ function [output, CCCOMBO] = trialRapid(scrn, tgt, ptbimg,...
         end
     else
         % hooray!
-        PsychPortAudio('Start', ifelse(CCCOMBO + 2 > 7, 7, CCCOMBO + 2),1,0,1);
+        PsychPortAudio('Start', ifelse(CCCOMBO + 2 > 9, 9, CCCOMBO + 2),1,0,1);
         CCCOMBO = CCCOMBO + 1;
     end
     % cleanup pt.1
