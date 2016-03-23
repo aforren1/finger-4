@@ -1,5 +1,5 @@
 function rawim = mkRawImg(img_type)
-% inputs: img_type (from tgtfile), swapped (from tgtfile)
+% inputs: img_type (from tgtfile)
 %
 % outputs: cell array of images
     % Pick directory based on tgtfile

@@ -59,24 +59,10 @@ function output = Rapid
         end
 
         % Wrap up residual things in the environment
-        Priority(0);
-        sca;
-        ShowCursor;
-        try KbQueueRelease; catch
-            warning('Not using the keyboard')
-        end
-        try PsychPortAudio('Close'); catch
-            warning('No active audio device'), end
+        purge;
 
     catch ME
-        Priority(0);
-        sca;
-        ShowCursor;
-        try KbQueueRelease; catch
-            warning('Not using the keyboard')
-        end;
-        try PsychPortAudio('Close'); catch
-            warning('No active audio device'), end
+        purge;
             % other nice things to clean up before failing
         rethrow(ME);
     end
