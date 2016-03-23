@@ -26,11 +26,10 @@ function err = testTRTrial(kybrd)
         PsychPortAudio('Start', 1, 1, t_ref + scrn.ifi, 0); % 1 is beep train
 
         t_ref = Screen('Flip', scrn.window, t_ref + 0.5*scrn.ifi);
-        t_ref_copy = t_ref;
+        t_ref_copy = t_ref; % t_ref_copy is the time the audio comes on
         startDev(dev);
-        t_bp4 = t_ref + 0.5 + 1.5; % 0.5 for aud delay, 1.5 for actual train dur
-        img_frame = round((0.5 + tgt.t_img(ii))/scrn.ifi);
-        n_frames = round(2.4/scrn.ifi);
+        img_frame = round((0.5 + tgt.t_img(ii))/scrn.ifi)
+        n_frames = round(2.4/scrn.ifi)
         new_press = nan(3,2);
         press_count = 1;
 
@@ -52,9 +51,8 @@ function err = testTRTrial(kybrd)
             end
             mkPressBoxes(scrn, update_scrn_press, rect_locs, scrn.gray);
 
-
             Screen('DrawingFinished', scrn.window);
-            t_ref = Screen('Flip',scrn.window, t_ref + (0.5) * scrn.ifi);
+            t_ref = Screen('Flip', scrn.window, t_ref + 0.5 * scrn.ifi);
         end
 
         Priority(0);
@@ -63,7 +61,7 @@ function err = testTRTrial(kybrd)
         stopDev(dev);
         clearDev(dev);
 
-        t_diff = new_press(1, 2) - 2
+        t_diff = new_press(1, 2) - 2;
         if isnan(t_diff) || t_diff > dev.PRESS_TOL
             tempstr = 'Too late!';
             tct = 0;
@@ -71,7 +69,7 @@ function err = testTRTrial(kybrd)
             tempstr = 'Too early!';
             tct = 0;
         else
-            tempstr = 'Good timing!'
+            tempstr = 'Good timing!';
             tct = 1;
         end
 
@@ -95,7 +93,7 @@ function err = testTRTrial(kybrd)
             PsychPortAudio('Start', 2, 1, t_ref + scrn.ifi, 0); % 1 is beep train
         end
 
-        WaitSecs(1);
+        WaitSecs(.4);
 
         %coerce into frame
         if strcmpi(dev.type, 'keyboard')
@@ -124,7 +122,7 @@ function err = testTRTrial(kybrd)
             output(:, 18) = timestamp;
             output(:, 19:size(traces, 2)) = traces;
         end
-        output
+
 
         purge;
     catch ME

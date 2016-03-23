@@ -12,9 +12,8 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
     PsychPortAudio('Start', 1, 1, t_ref + scrn.ifi, 0); % 1 is beep train
 
     t_ref = Screen('Flip', scrn.window, t_ref + 0.5*scrn.ifi);
-    t_ref_copy = t_ref;
+    t_ref_copy = t_ref; % t_ref_copy is the time the audio comes on
     startDev(dev);
-    t_bp4 = t_ref + 0.5 + 1.5; % 0.5 for aud delay, 1.5 for actual train dur
     img_frame = round((0.5 + tgt.t_img(ii))/scrn.ifi);
     n_frames = round(2.4/scrn.ifi);
     new_press = nan(3,2);
@@ -38,9 +37,8 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
         end
         mkPressBoxes(scrn, update_scrn_press, rect_locs, scrn.gray);
 
-
         Screen('DrawingFinished', scrn.window);
-        t_ref = Screen('Flip',scrn.window, t_ref + (0.5) * scrn.ifi);
+        t_ref = Screen('Flip', scrn.window, t_ref + 0.5 * scrn.ifi);
     end
 
     Priority(0);
@@ -57,7 +55,7 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
         tempstr = 'Too early!';
         tct = 0;
     else
-        tempstr = 'Good timing!'
+        tempstr = 'Good timing!';
         tct = 1;
     end
 
