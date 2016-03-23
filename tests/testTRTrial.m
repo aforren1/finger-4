@@ -10,7 +10,7 @@ function err = testTRTrial(kybrd)
         tgt.id = 55;
         fingers = unique(tgt.finger);
         dev = mkRespDev(kybrd, fingers, resp_consts);
-        scrn = mkScreen(false, true, scrn_consts); % small, skip tests
+        scrn = mkScreen(true, true, scrn_consts); % small, skip tests
         rawimg = mkRawImg(tgt.img_type(1)); %shapes
         ptbimg = mkPtbImg(rawimg, scrn);
 
