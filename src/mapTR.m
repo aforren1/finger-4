@@ -9,5 +9,5 @@ function tgt_out = mapTR(tgt)
     tgt_out.finger = tgt(:, 7);
     tgt_out.t_img = tgt(:, 8);
     tgt_out.swap1 = tgt(:, 9);
-    tgt_out.swap2 = tgt(: 10);
+    tgt_out.swap2 = tgt(:, 10);
 end

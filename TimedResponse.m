@@ -35,7 +35,7 @@ function output = TimedResponse
             Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
             mkBoxes(scrn, dev.valid_indices);
             Screen('Flip', scrn.window);
-            [tempout{ii},CCCOMBO] = trialTR(scrn, tgt, ptbimg, dev, ii);
+            tempout{ii} = trialTR(scrn, tgt, ptbimg, dev, ii);
         end
 
         % format departing data
