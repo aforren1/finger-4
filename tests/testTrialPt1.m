@@ -8,12 +8,12 @@ function err = testTrialPt1(kybrd)
         CCCOMBO = 10;
         ii = 1;
         [resp_consts, scrn_consts, misc_consts] = mkConstants;
-        tgt = mapRapid(dlmread(['misc/tfiles/','dy3_bk4_ez0_sw1_sh1.tgt']));
+        tgt = mapRapid(dlmread(['misc/tfiles/','testBehav_rapid.tgt']));
         tgt.id = 55;
         fingers = unique(tgt.finger);
         dev = mkRespDev(kybrd, fingers, resp_consts);
-        scrn = mkScreen(true, true, scrn_consts); % small, skip tests
-        rawimg = mkRawImg(1); %shapes
+        scrn = mkScreen(false, true, scrn_consts); % small, skip tests
+        rawimg = mkRawImg(tgt.img_type(1)); %shapes
         ptbimg = mkPtbImg(rawimg, scrn);
 
         Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
@@ -91,26 +91,25 @@ function err = testTrialPt1(kybrd)
             output = nan(1,16);
         elseif strcmpi(dev.type, 'force')
             [traces, timestamp] = readFT(dev);
-            output = nan(length(timestamp), 16 + size(traces, 2));
+            output = nan(length(timestamp), 17 + size(traces, 2));
         end
 
         output(:,1) = tgt.id;
         output(:,2) = tgt.day(ii);
         output(:,3) = tgt.block(ii);
         output(:,4) = tgt.trial(ii);
-        output(:,5) = tgt.easy(ii);
-        output(:,6) = tgt.swapped(ii);
-        output(:,7) = tgt.img_type(ii);
-        output(:,8) = tgt.finger(ii);
-        output(:,9) = tgt.swap1(ii);
-        output(:,10) = tgt.swap2(ii);
-        output(:,11:12) = new_press(1,:); % convert nan to -1 for csv
-        output(:,13:14) = ifelse(isnan(new_press(2,1)), -1, new_press(2,:));
-        output(:,15:16) = ifelse(isnan(new_press(3,1)), -1, new_press(3,:));
+        output(:,5) = tgt.swapped(ii);
+        output(:,6) = tgt.img_type(ii);
+        output(:,7) = tgt.finger(ii);
+        output(:,8) = tgt.swap1(ii);
+        output(:,9) = tgt.swap2(ii);
+        output(:,10:11) = new_press(1,:); % convert nan to -1 for csv
+        output(:,12:13) = ifelse(isnan(new_press(2,1)), -1, new_press(2,:));
+        output(:,14:15) = ifelse(isnan(new_press(3,1)), -1, new_press(3,:));
 
         if strcmpi(dev.type, 'force')
-            output(:, 17) = timestamp;
-            output(:, 18:size(traces, 2)) = traces;
+            output(:, 16) = timestamp;
+            output(:, 17:size(traces, 2)) = traces;
         end
 output
 

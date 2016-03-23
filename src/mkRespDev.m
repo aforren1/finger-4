@@ -34,6 +34,8 @@ l_valid = length(valid_keys);
         dev.valid_keys = resp_consts.ALL_KEYS(valid_keys);
         dev.FORCE_MIN = ones(1, l_valid); % if 1 (press), fill in whole thing
         dev.FORCE_MAX = dev.FORCE_MIN * 100; % for compatibility with transducers
+        dev.PRESS_TOL = resp_consts.PRESS_TOL;
+
     else % Force transducers, only works on windows
         if ~ispc
             error('DAQ only works on Windows (barring new hardware)');
