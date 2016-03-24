@@ -28,8 +28,8 @@ function err = testTRTrial(kybrd)
         t_ref = Screen('Flip', scrn.window, t_ref + 0.5*scrn.ifi);
         t_ref_copy = t_ref; % t_ref_copy is the time the audio comes on
         startDev(dev);
-        img_frame = round((0.5 + tgt.t_img(ii))/scrn.ifi)
-        n_frames = round(2.4/scrn.ifi)
+        img_frame = round((0.5 + tgt.t_img(ii))/scrn.ifi);
+        n_frames = round(2.4/scrn.ifi);
         new_press = nan(3,2);
         press_count = 1;
 
@@ -60,7 +60,7 @@ function err = testTRTrial(kybrd)
         new_press(:,2) = new_press(:,2) - t_ref_copy; % should be around 2 for correct
         stopDev(dev);
         clearDev(dev);
-
+        Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
         t_diff = new_press(1, 2) - 2;
         if isnan(t_diff) || t_diff > dev.PRESS_TOL
             tempstr = 'Too late!';
@@ -76,13 +76,14 @@ function err = testTRTrial(kybrd)
         if new_press(1,1) ~= tgt.finger(ii)
             tempstr2 = ' Wrong button!';
             tempcol = scrn.red;
+            mkPressBoxes(scrn, dev.valid_indices' == tgt.finger(ii),...
+                         rect_locs, scrn.blue)
         else
             tempstr2 = ' Right button!';
             tempcol = scrn.green;
             tct = tct + 1;
         end
 
-        Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
         rect_locs = mkBoxes(scrn, dev.valid_indices);
         Screen('DrawTexture', scrn.window, ptbimg(tgt.finger(ii)));
         mkPressBoxes(scrn, first_scrn_press, rect_locs, tempcol);
