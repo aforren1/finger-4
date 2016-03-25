@@ -2,6 +2,7 @@ function snd = mkRapidSounds
 % inputs: none
 % outputs: snd, a 1xn vector of sound handles
 % All sounds *should* have a Fs of 44100Hz
+    InitializePsychSound(1);
     try PsychPortAudio('Close')
     catch
         warning('No active audio device')
@@ -24,8 +25,6 @@ function snd = mkRapidSounds
     [right{8}, Fs] = readsound([basedir, 'orch7.wav']);
     [right{9}, Fs] = readsound([basedir, 'orch8.wav']);
 
-
-    InitializePsychSound(1);
     pamaster = PsychPortAudio('Open', [], 9, 1, Fs, 2, []);
     PsychPortAudio('Start', pamaster, 0, 0, 1);
     %PsychPortAudio('Volume', pamaster, 0.5);
