@@ -4,7 +4,7 @@ To start an experiment, change your directory (via `cd` or the menu) to the
 top-level `finger-4` directory. Then, type either `Rapid;` or `TimedResponse;`
 to start the experiment. The program will prompt you for an id (any integer,
 as long as you keep it consistent), the `.tgt` file (without the suffix),
-fullscreen or not (`true` or `false`), and whether the keyboard is used or not
+full screen or not (`true` or `false`), and whether the keyboard is used or not
 (alternatively, the force transducers are expected).
 
 
