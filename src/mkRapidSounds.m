@@ -3,10 +3,6 @@ function snd = mkRapidSounds
 % outputs: snd, a 1xn vector of sound handles
 % All sounds *should* have a Fs of 44100Hz
     InitializePsychSound(1);
-    try PsychPortAudio('Close')
-    catch
-        warning('No active audio device')
-    end
 
     isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
     basedir = 'misc/sounds/';
