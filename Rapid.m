@@ -16,7 +16,7 @@ function output = Rapid
         %% Put together resources
         ui = mkUI;
         scrn = mkScreen(ui.size, ui.skip, c_scrn);
-        tgt = mapRapid(dlmread(['misc/tfiles/', ui.tgt]));
+        tgt = mapRapid(dlmread(['misc/tfiles/', ui.tgt, '.tgt']));
         tgt.id = ui.id;
 
         rawimg = mkRawImg(tgt.img_type(1));
@@ -55,7 +55,7 @@ function output = Rapid
         for ii = 2:length(tempout) % convert output to 2d matrix
             output = [output; cell2mat(tempout(ii))];
         end
-        dlmwrite(['data/id',num2str(ui.id), ui.tgt], output);
+        dlmwrite(['data/id',num2str(ui.id),'_', ui.tgt, '.csv'], output);
         % Wrap up residual things in the environment
         purge;
 
