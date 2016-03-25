@@ -73,7 +73,7 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
     rect_locs = mkBoxes(scrn, dev.valid_indices);
     Screen('DrawTexture', scrn.window, ptbimg(tgt.finger(ii)));
     mkPressBoxes(scrn, first_scrn_press, rect_locs, tempcol);
-    DrawFormattedText(scrn.window, [tempstr, tempstr2], .8*scrn.size(3),...
+    DrawFormattedText(scrn.window, [tempstr, tempstr2], 'center',...
                   scrn.TXT_RATIO*scrn.size(4), scrn.txtcol);
     Screen('Flip', scrn.window);
     if tct > 1

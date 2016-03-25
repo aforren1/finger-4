@@ -39,4 +39,4 @@ and a valid training one would be
 
 > dy1_bk3_sw0_sh1
 
-The data file will be automatically saved to the `/data` directory.
+The data file will be automatically saved to the `/data` directory. Keep an eye on the "misc/tfiles" directory for which ones to do.
