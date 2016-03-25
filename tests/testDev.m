@@ -4,7 +4,7 @@ function err = testDev(kybrd);
     try
         addpath src
         [resp_consts] = mkConstants;
-        tgt = mapRapid(dlmread(['misc/tfiles/','testBehav_rapid.tgt']));
+        tgt = mapRapid(dlmread(['misc/tfiles/','testBehav_rapid','.tgt']));
         dev = mkRespDev(kybrd, unique(tgt.finger), resp_consts);
         rmDev(dev);
         err = 0;

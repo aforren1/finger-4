@@ -55,7 +55,7 @@ function output = Rapid
         for ii = 2:length(tempout) % convert output to 2d matrix
             output = [output; cell2mat(tempout(ii))];
         end
-
+        dlmwrite(['id',num2str(ui.id), ui.tgt], output);
         % Wrap up residual things in the environment
         purge;
 
