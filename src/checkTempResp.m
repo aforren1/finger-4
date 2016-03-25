@@ -30,7 +30,7 @@ previous_press = update_scrn_press; % get indices with find(previous_press >= 1)
             new_press = [dev.valid_indices(press_key), t_press];
             KbQueueFlush; % Flush existing events
         else
-            new_press = [NaN NaN NaN];
+            new_press = [NaN NaN];
         end
         if any(firstrelease > 0)
             release_key = KbName(find(firstrelease > 0));
