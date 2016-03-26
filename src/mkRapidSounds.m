@@ -21,7 +21,7 @@ function snd = mkRapidSounds
     [right{8}, Fs] = readsound([basedir, 'orch7.wav']);
     [right{9}, Fs] = readsound([basedir, 'orch8.wav']);
 
-    pamaster = PsychPortAudio('Open', [], 9, 1, Fs, 2, []);
+    pamaster = PsychPortAudio('Open', [], 9, 1, 44100, 2, []);
     PsychPortAudio('Start', pamaster, 0, 0, 1);
     %PsychPortAudio('Volume', pamaster, 0.5);
     snd = zeros(1, length(right));

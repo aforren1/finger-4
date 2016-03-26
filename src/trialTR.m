@@ -43,11 +43,11 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
 
     Priority(0);
 
-    new_press(:,2) = new_press(:,2) - t_ref_copy; % should be around 2 for correct
+    new_press(:,2) = new_press(:,2) - t_ref_copy - .5; % should be around 2 for correct
     stopDev(dev);
     clearDev(dev);
     Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
-    t_diff = new_press(1, 2) - 2;
+    t_diff = new_press(1, 2) - 1.5;
     if isnan(t_diff) || t_diff > dev.PRESS_TOL
         tempstr = 'Too late!';
         tct = 0;
