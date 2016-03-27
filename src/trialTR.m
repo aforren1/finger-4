@@ -4,6 +4,7 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
     rect_locs = mkBoxes(scrn, dev.valid_indices);
     t_ref = Screen('Flip', scrn.window);
     update_scrn_press = zeros(1, length(dev.valid_indices));
+    first_scrn_press = update_scrn_press;
 
     % think about this
     Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
