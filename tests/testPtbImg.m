@@ -2,6 +2,7 @@ function err = testPtbImg
     % test displaying images with psychtoolbox
     try
         addpath src
+        addpath misc/mfiles
         rawim = mkRawImg(1); %shapes
         rawim2 = mkRawImg(0); % hands
         [~, scrn_consts, ~] = mkConstants;

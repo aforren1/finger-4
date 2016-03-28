@@ -4,6 +4,7 @@ function err = testRapidSounds
 
     try
         addpath src
+        addpath misc/mfiles
         snd = mkRapidSounds;
         for ii = 1:length(snd)
             t0 = GetSecs;

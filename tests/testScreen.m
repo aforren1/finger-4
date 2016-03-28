@@ -3,6 +3,8 @@ function err = testScreen
 
     try
         addpath src
+        addpath misc/mfiles
+
         [~, scrn_consts, ~] = mkConstants;
         scrn = mkScreen(false, true, scrn_consts);
         Screen('FillRect', scrn.window, scrn.red);

@@ -4,6 +4,8 @@ function err = testTrialPt1(kybrd)
 
     try
         addpath src
+        addpath misc/mfiles
+
         snd = mkRapidSounds;
         CCCOMBO = 10;
         ii = 1;

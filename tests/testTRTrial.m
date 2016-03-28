@@ -3,6 +3,8 @@ function err = testTRTrial(kybrd)
 
     try
         addpath src
+        addpath misc/mfiles
+
         snd = mkTRSounds;
         ii = 1;
         [resp_consts, scrn_consts, misc_consts] = mkConstants;

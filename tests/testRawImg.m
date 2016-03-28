@@ -1,6 +1,7 @@
 function err = testRawImg
     try
         addpath src
+        addpath misc/mfiles
 
         rawim = mkRawImg(1); %shapes
         rawim2 = mkRawImg(0); % hands

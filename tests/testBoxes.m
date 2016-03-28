@@ -3,6 +3,7 @@ function err = testBoxes(kybrd)
 
     try
         addpath src
+        addpath misc/mfiles
         [resp_consts, scrn_consts, misc_consts] = mkConstants;
         tgt = mapRapid(dlmread(['misc/tfiles/','testBehav_rapid','.tgt']));
         fingers = unique(tgt.finger);

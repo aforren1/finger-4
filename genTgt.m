@@ -37,3 +37,13 @@ mkRapidTgt(3, 9, 0, 1, 25); % (day, block, swapped, img_type, reps)
 mkRapidTgt(3, 10, 0, 1, 25);
 
 % day 4
+mkRapidTgt(4, 1, 0, 1, 25); % (day, block, swapped, img_type, reps)
+mkRapidTgt(4, 2, 0, 1, 25);
+mkRapidTgt(4, 3, 0, 1, 25); % (day, block, swapped, img_type, reps)
+mkRapidTgt(4, 4, 0, 1, 25);
+mkRapidTgt(4, 5, 0, 1, 25); % (day, block, swapped, img_type, reps)
+mkRapidTgt(4, 6, 0, 1, 25);
+mkRapidTgt(4, 7, 0, 1, 25); % (day, block, swapped, img_type, reps)
+mkRapidTgt(4, 8, 0, 1, 25);
+mkRapidTgt(4, 9, 0, 1, 25); % (day, block, swapped, img_type, reps)
+mkRapidTgt(4, 10, 0, 1, 25);

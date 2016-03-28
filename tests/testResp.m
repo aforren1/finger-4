@@ -3,6 +3,7 @@ function err = testResp(kybrd)
 
 try
     addpath src
+    addpath misc/mfiles
     CCCOMBO = 5;
     [resp_consts, scrn_consts, misc_consts] = mkConstants;
     tgt = mapRapid(dlmread(['misc/tfiles/','testBehav_rapid','.tgt']));
