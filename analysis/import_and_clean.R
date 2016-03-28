@@ -21,8 +21,10 @@ importRapid <- function() {
                         'resp2', 't_resp2', 'resp3', 't_resp3')
   
   final_dat[final_dat == -1] <- NA
+  final_dat[final_dat == 'NaN'] <- NA
+  nas <- apply(final_dat, 1, function(z) sum(is.na(z)))
   final_dat$correct <- final_dat$resp1 == final_dat$finger
-  
+  final_dat$n_tries <- ifelse(nas == 6, 0, ifelse(nas == 4, 1, ifelse(nas == 2, 2, 3)))
 
   final_dat
 }
@@ -48,8 +50,11 @@ importTR <- function() {
                         'resp2', 't_resp2', 'resp3', 't_resp3')
   
   final_dat[final_dat == -1] <- NA
+  final_dat[final_dat == 'NaN'] <- NA
+  nas <- apply(final_dat, 1, function(z) sum(is.na(z)))
   final_dat$correct <- final_dat$resp1 == final_dat$finger
   final_dat$t_prep <- final_dat$t_resp1 - final_dat$t_img
+  final_dat$n_tries <- ifelse(nas == 6, 0, ifelse(nas == 4, 1, ifelse(nas == 2, 2, 3)))
   final_dat
   
 }

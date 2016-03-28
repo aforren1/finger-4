@@ -102,7 +102,7 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
     output(:,9) = tgt.t_img(ii);
     output(:,10) = tgt.swap1(ii);
     output(:,11) = tgt.swap2(ii);
-    output(:,12:13) = new_press(1,:); % convert nan to -1 for csv
+    output(:,12:13) = ifelse(isnan(new_press(1,1)), -1, new_press(1,:)); % convert nan to -1 for csv
     output(:,14:15) = ifelse(isnan(new_press(2,1)), -1, new_press(2,:));
     output(:,16:17) = ifelse(isnan(new_press(3,1)), -1, new_press(3,:));
 
