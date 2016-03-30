@@ -14,7 +14,7 @@ seed = day * block; % avoid explicit patterns in seeding
 %rng(seed);
 rand('seed', seed);
 ind_finger = [7 8 9 10];
-times = [1:.05:1.4];
+times = [.8:.05:1.4];
 % generate all combinations of times and images
 [a1, a2] = meshgrid(ind_finger, times);
 combos = repmat([a1(:) a2(:)], reps, 1); % 36 * reps trials

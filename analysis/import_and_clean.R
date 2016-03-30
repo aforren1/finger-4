@@ -58,3 +58,18 @@ importTR <- function() {
   final_dat
   
 }
+
+# plot timed response
+library(ggplot2)
+dat <- importTR()
+ggplot(dat, aes(t_prep, ifelse(correct, 1, 0))) + 
+  geom_jitter(height = 0.2, alpha = .6) + 
+  xlim(c(0,.6)) + 
+  geom_smooth(method = 'glm', 
+              method.args = list(family = binomial(mafc.probit(4))), se = FALSE) + 
+  facet_wrap(~img_type + id)
+# plot training
+dat2 <- importRapid()
+ggplot(dat2, aes(trial, t_resp1, colour = correct)) + 
+  geom_point(alpha = 0.6) + 
+  facet_wrap(~img_type + id)
