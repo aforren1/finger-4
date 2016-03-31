@@ -55,13 +55,11 @@ mkTRTgt(4, 10, 0, 0, 0, 3);
 % day 5 (n) (swap!)
 % ambiguous symbols
 mkRapidTgt(5, 1, [7 9], 1, 25); % (day, block, swapped, img_type, reps)
-mkRapidTgt(5, 2, [7 9], 1, 25);
-mkTRTgt(5, 3, 0, [7 9], 1, 3); % (day, block, easy, swapped, img_type, reps)
+mkTRTgt(5, 2, 0, [7 9], 1, 3); % (day, block, easy, swapped, img_type, reps)
+mkTRTgt(5, 3, 0, [7 9], 1, 3);
 mkTRTgt(5, 4, 0, [7 9], 1, 3);
-mkTRTgt(5, 5, 0, [7 9], 1, 3);
 
-mkRapidTgt(5, 6, [7 9], 0, 25); % warmup hands
-mkRapidTgt(5, 7, [7 9], 0, 25); % warmup hands
-mkTRTgt(5, 8, 0, [7 9], 0, 3); % hands
-mkTRTgt(5, 9, 0, [7 9], 0, 3);
-mkTRTgt(5, 10, 0, [7 9], 0, 3);
+mkRapidTgt(5, 5, 0, 0, 25); % warmup hands
+mkTRTgt(5, 6, 0, 0, 0, 3); % hands
+mkTRTgt(5, 7, 0, 0, 0, 3);
+mkTRTgt(5, 8, 0, 0, 0, 3);
