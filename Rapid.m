@@ -40,7 +40,7 @@ function output = Rapid(ui)
             mkBoxes(scrn, dev.valid_indices);
             %%drawCCCOMBO(scrn, CCCOMBO);
             Screen('Flip', scrn.window);
-            [tempout{ii},CCCOMBO] = trialRapid(scrn, tgt, ptbimg,...
+            [tempout{ii}, CCCOMBO] = trialRapid(scrn, tgt, ptbimg,...
                                                dev, ii, CCCOMBO);
             MAX_COMBO = ifelse(CCCOMBO > MAX_COMBO, CCCOMBO, MAX_COMBO);
         end
