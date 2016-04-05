@@ -1,5 +1,4 @@
-
-function err = testCountdown(kybrd)
+function err = testSmallBoxes(kybrd)
 % globals, other variables
 
     try
@@ -10,8 +9,11 @@ function err = testCountdown(kybrd)
         fingers = unique(tgt.finger);
         dev = mkRespDev(kybrd, fingers, resp_consts);
         scrn = mkScreen(false, true, scrn_consts); % small, skip tests
-        zero_volts = mkCountdown(scrn, dev, misc_consts);
-        zero_volts
+        rect_locs = mkBoxes(scrn, dev.valid_indices);
+        mkPressBoxes(scrn, [0 1 0 0], rect_locs, scrn.green);
+        mkSmallBoxes(scrn, [0 1 0 0], rect_locs, scrn.colour);
+        Screen('Flip', scrn.window);
+        WaitSecs(.5);
         rmDev(dev);
         sca;
         err = 0;
