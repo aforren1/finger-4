@@ -45,7 +45,7 @@ function output = Rapid(ui)
             MAX_COMBO = ifelse(CCCOMBO > MAX_COMBO, CCCOMBO, MAX_COMBO);
         end
 
-        SCORE = 1000 - (round(GetSecs - SCORE) * 100); % total duration of the block
+        SCORE = 10000 - (round(GetSecs - SCORE) * 50); % total duration of the block
         Screen('TextSize', scrn.window, 40);
         DrawFormattedText(scrn.window, ['FINAL SCORE: ', num2str(SCORE)],...
                           'center', 'center', scrn.txtcol);
@@ -61,14 +61,33 @@ function output = Rapid(ui)
         for ii = 2:length(tempout) % convert output to 2d matrix
             output = [output; cell2mat(tempout(ii))];
         end
-        dlmwrite(['data/id',num2str(ui.id),'_', ui.tgt, '.csv'], output);
+
+        % write header & data to file (hackier due to octave compat)
+        tfile2 = ui.tgt(1:end-4);
+        filename = ['data/id', num2str(ui.id),'_', tfile2, '.csv'];
+        headers = {'id', 'day', 'block', 'trial', 'swapped', 'img_type',...
+                   'finger', 'swap1', 'swap2', 'press1', 't_press1', ...
+                   'press2', 't_press2', 'press3', 't_press3'};
+        if strcmpi(dev.type, 'force')
+            % ugly ugly ugly hack, make sure to check the actual size!!!
+            headers = [headers, {timestamp, 'f7', 'f8', 'f9', 'f10'}];
+        end
+        fid = fopen(filename, 'wt');
+        csvFun = @(str)sprintf('%s, ',str);
+        xchar = cellfun(csvFun, headers, 'UniformOutput', false);
+        xchar = strcat(xchar{:});
+        xchar = strcat(xchar(1:end-1), '\n');
+        fprintf(fid, xchar);
+        fclose(fid);
+
+        %dlmwrite(filename, headers);
+        dlmwrite(filename, output, '-append');
         % Wrap up residual things in the environment
         purge;
         Priority(0);
 
     catch ME
         purge;
-            % other nice things to clean up before failing
         rethrow(ME);
     end
 
