@@ -11,6 +11,8 @@ function output = TimedResponse(ui)
 
         %% constants and other variables used in this scope
         [c_resp, c_scrn, c_misc] = mkConstants; % `c_` denotes consts
+        CCCOMBO = 0;
+        MAX_COMBO = 0;
 
         %% Put together resources
         %ui = mkUI;
@@ -35,8 +37,15 @@ function output = TimedResponse(ui)
             Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
             mkBoxes(scrn, dev.valid_indices);
             Screen('Flip', scrn.window);
-            tempout{ii} = trialTR(scrn, tgt, ptbimg, dev, ii);
+            [tempout{ii}, CCCOMBO] = trialTR(scrn, tgt, ptbimg, dev, ii, CCCOMBO);
+            MAX_COMBO = ifelse(CCCOMBO > MAX_COMBO, CCCOMBO, MAX_COMBO);
         end
+
+        % fun feedback
+        DrawFormattedText(scrn.window, ['MAXIMUM COMBO: ', num2str(MAX_COMBO)],...
+                          'center', 'center', scrn.txtcol);
+        Screen('Flip', scrn.window);
+        WaitSecs(2);
 
         % format departing data
         output = cell2mat(tempout(1));

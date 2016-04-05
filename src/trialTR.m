@@ -1,4 +1,4 @@
-function output = trialTR(scrn, tgt, ptbimg, dev, ii)
+function [output, CCCOMBO] = trialTR(scrn, tgt, ptbimg, dev, ii, CCCOMBO)
 
     Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
     rect_locs = mkBoxes(scrn, dev.valid_indices);
@@ -95,6 +95,9 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
     Screen('Flip', scrn.window);
     if tct > 1
         PsychPortAudio('Start', 2, 1, t_ref + scrn.ifi, 0); % 1 is beep train
+        CCCOMBO = CCCOMBO + 1;
+    else
+        CCCOMBO = 0;
     end
 
     WaitSecs(.3);

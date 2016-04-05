@@ -11,7 +11,6 @@ function output = Rapid(ui)
 
         %% constants and other variables used in this scope
         [c_resp, c_scrn, c_misc] = mkConstants; % `c_` denotes consts
-        CCCOMBO = 0;
 
         %% Put together resources
         %ui = mkUI;
@@ -27,12 +26,13 @@ function output = Rapid(ui)
 
         % make the response device and figure out which are relevant
         dev = mkRespDev(ui.kybrd, unique(tgt.finger), c_resp);
-
         mkRapidSounds;
+        
         output = cell(1, max(tgt.trial));
         HideCursor;
         dev.zero_volts = mkCountdown(scrn, dev, c_misc);
         SCORE = GetSecs; % start timekeeping after getting everything set up
+        CCCOMBO = 0;
         MAX_COMBO = 0;
 
         for ii = 1:length(tgt.trial)
