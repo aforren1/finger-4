@@ -47,6 +47,7 @@ function output = TimedResponse
 
         % Wrap up residual things in the environment
         purge;
+        Priority(0);
 
     catch ME
         purge;

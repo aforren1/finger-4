@@ -1,0 +1,131 @@
+---
+title: "Symbols and Stuff"
+author: "Alexander Forrence"
+date: "April 2, 2016"
+output:   
+    revealjs::revealjs_presentation:
+        theme: simple
+        highlight: pygments
+        fig_width: 14
+        fig_height: 8.5
+        self_contained: true
+        slide_level: 2
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(ggplot2)
+library(ggvis)
+library(plyr)
+
+source('~/Documents/BLAM/finger-4/analysis/import_and_clean.R')
+theme_set(theme_bw())
+dat_tr <- importTR()
+dat_rapid <- importRapid()
+dat_rapid$day_blk_type <- paste0('day ', dat_rapid$day, 
+                                 ', blk ', dat_rapid$block,
+                                 ', ', ifelse(dat_rapid$img_type == 1, 'phon', 'hand'),
+                                 ' image')
+dat_rapid_13 <- ddply(.data = dat_rapid[dat_rapid$id == 13,], 
+               .(day_blk_type),
+               summarize,
+               mn = round(median(t_resp1), 3),
+               low95 = round(quantile(t_resp1, .05, na.rm = TRUE), 3),
+               hi95 = round(quantile(t_resp1, .95, na.rm = TRUE), 3))
+
+dat_rapid_200 <- ddply(.data = dat_rapid[dat_rapid$id == 200,], 
+               .(day_blk_type),
+               summarize,
+               mn = round(median(t_resp1), 3),
+               low95 = round(quantile(t_resp1, .05, na.rm = TRUE), 3),
+               hi95 = round(quantile(t_resp1, .95, na.rm = TRUE), 3))
+
+dat_tr_swaps <- dat_tr[dat_tr$swapped == 1,]
+dat_tr_remaps_only <- dat_tr_swaps[ifelse(
+  as.numeric(as.character(dat_tr_swaps$finger)) %% 2 == 1, TRUE, FALSE),]
+
+dat_tr_remaps_only$tried_old <- ifelse(abs(
+  as.numeric(as.character(dat_tr_remaps_only$resp1)) - 
+  as.numeric(as.character(dat_tr_remaps_only$finger))) == 2,
+  1, 0)
+
+dat_tr_remaps_only_200 <- subset(dat_tr_remaps_only, id == 200)
+dat_tr_remaps_only_13 <- subset(dat_tr_remaps_only, id == 13)
+
+dat_tr_remaps_only_13 <- dat_tr_remaps_only_13[order(dat_tr_remaps_only_13$t_prep),]
+dat_tr_remaps_only_200 <- dat_tr_remaps_only_200[order(dat_tr_remaps_only_200$t_prep),]
+
+```
+
+## The paradigm
+
+Why wont things show up??
+
+```{r, echo = TRUE}
+here <- 'my code'
+```
+
+## Serial/Free Reaction Time
+
+```{r}
+print(ggplot(dat_rapid[dat_rapid$id == 200,], aes(t_resp1)) +
+  geom_histogram(bins = 40, aes(fill = img_type)) +
+  facet_wrap(~day_blk_type) +
+  geom_vline(data = dat_rapid_200, aes(xintercept = mn)) +
+  geom_text(data = dat_rapid_200, aes(x = 1, y = 25,
+                                   label = paste('median = ', mn)), size = 3) +
+  geom_vline(data = dat_rapid_200, aes(xintercept = low95), 
+             linetype = 'dashed', colour = 'red') +
+  geom_vline(data = dat_rapid_200, aes(xintercept = hi95), 
+             linetype = 'dashed', colour = 'red') +
+  geom_text(data = dat_rapid_200, aes(x = 1, y = 18, 
+                                   label = paste('spread = ', hi95 - low95)), size = 3))
+
+```
+
+##
+
+```{r}
+ggplot(dat_rapid[dat_rapid$id == 13,], aes(t_resp1)) +
+  geom_histogram(bins = 40,aes(fill = img_type)) +
+  facet_wrap(~day_blk_type) +
+  geom_vline(data = dat_rapid_13, aes(xintercept = mn)) +
+  geom_text(data = dat_rapid_13, aes(x = 1.6, y = 25,
+                                   label = paste('median = ', mn)), size = 3) +
+  geom_vline(data = dat_rapid_13, aes(xintercept = low95), 
+             linetype = 'dashed', colour = 'red') +
+  geom_vline(data = dat_rapid_13, aes(xintercept = hi95), 
+             linetype = 'dashed', colour = 'red') +
+  geom_text(data = dat_rapid_13, aes(x = 1.6, y = 18, 
+                                   label = paste('spread = ', hi95 - low95)), size = 3)
+
+```
+
+## Timed Response (probes)
+
+```{r}
+ggplot(dat_tr[(dat_tr$id == 200 & dat_tr$img_type == 1),], 
+       aes(x = t_prep, ..count.., fill = resp1)) +
+  geom_density(alpha = .6, adjust = .75) +
+  facet_wrap(day ~ finger)
+```
+
+##
+```{r}
+ggplot(dat_tr[(dat_tr$id == 13 & dat_tr$img_type == 1),], 
+       aes(x = t_prep, ..count.., fill = resp1)) +
+  geom_density(alpha = .6, adjust = .75) +
+  facet_wrap(day ~ finger)
+```
+
+## Functions
+```{r}
+
+ggplot(dat_tr[dat_tr$id == 200,], aes(t_prep, ifelse(correct, 1, 0))) + 
+  geom_jitter(height = 0.2, alpha = .6) + 
+  xlim(c(0,.6)) + 
+  geom_smooth(method = 'glm', 
+              method.args = list(family = binomial(psyphy::mafc.probit(4))), se = FALSE) + 
+  facet_wrap(~img_type + day)
+```

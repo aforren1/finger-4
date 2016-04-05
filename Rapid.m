@@ -58,6 +58,7 @@ function output = Rapid
         dlmwrite(['data/id',num2str(ui.id),'_', ui.tgt, '.csv'], output);
         % Wrap up residual things in the environment
         purge;
+        Priority(0);
 
     catch ME
         purge;

@@ -67,46 +67,20 @@ importTR <- function() {
   
 }
 
-# plot timed response
-library(ggplot2)
-library(psyphy)
-library(plyr)
-dat <- importTR()
-ggplot(dat[dat$id == 200,], aes(t_prep, ifelse(correct, 1, 0))) + 
-  geom_jitter(height = 0.2, alpha = .6) + 
-  xlim(c(0,.6)) + 
-  geom_smooth(method = 'glm', 
-              method.args = list(family = binomial(mafc.probit(4))), se = FALSE) + 
-  facet_wrap(~img_type + day)
 
-ggplot(dat[dat$id == 200,], aes(t_prep, finger, colour = resp1)) +
-  geom_jitter(height = 0.2, alpha = .6) +
-  xlim(c(0, .6)) +
-  facet_wrap(~img_type + day)
-
-ggplot(dat[(dat$id == 200 & dat$img_type == 1),], 
-       aes(x = t_prep, fill = resp1)) +
-  geom_density(alpha = .6, adjust = .75) +
-  facet_wrap(day ~ finger)
-# plot training
-dat2 <- importRapid()
-ggplot(dat2[dat2$id == 200,], aes(trial, t_resp1, colour = correct)) + 
-  geom_point(alpha = 0.6) + 
-  facet_wrap(~day + block + img_type)
-
-dat22 <- ddply(.data = dat2[dat2$id == 200,], 
-               .(day, block, img_type),
-               summarize,
-               mn = round(median(t_resp1), 3),
-               low95 = round(quantile(t_resp1, .05, na.rm = TRUE), 3),
-               hi95 = round(quantile(t_resp1, .95, na.rm = TRUE), 3))
-
-ggplot(dat2[dat2$id == 200,], aes(t_resp1, fill = img_type)) +
-  geom_histogram(bins = 40) +
-  facet_wrap(~day + block + img_type) +
-  geom_vline(data = dat22, aes(xintercept = mn)) +
-  geom_text(data = dat22, aes(x = 1, y = 25, label = paste('median = ', mn)), size = 3) +
-  geom_vline(data = dat22, aes(xintercept = low95), linetype = 'dashed', colour = 'red') +
-  geom_vline(data = dat22, aes(xintercept = hi95), linetype = 'dashed', colour = 'red') +
-  geom_text(data = dat22, aes(x = 1, y = 18, label = paste('spread = ', hi95 - low95)), size = 3)
+timeSlide <- function(x, y, step_size = 0.005, window_size = 0.05) {
   
+  time_grid <- seq(min(x, na.rm =TRUE), max(x, na.rm = TRUE), by = step_size)
+  out_grid <- matrix(nrow = length(time_grid), ncol = 3)
+  
+  for (ii in 1:length(time_grid)) {
+    ref_time <- time_grid[ii]
+    low_time <- ref_time - (window_size/2)
+    high_time <- ref_time + (window_size/2)
+    valid_times <- ifelse(x > low_time & x < high_time, TRUE, FALSE)
+    out_grid[ii, 1] <- ref_time
+    out_grid[ii, 2] <- mean(x[valid_times], na.rm = TRUE)
+    out_grid[ii, 3] <- mean(y[valid_times], na.rm = TRUE)
+  }
+  out_grid
+}
