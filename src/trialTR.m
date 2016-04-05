@@ -69,7 +69,8 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
             tempcol = scrn.green;
             tct = 1;
         end
-    else
+    else % no image, any press is the right press
+        tempcol = scrn.green;
         tct = 1;
     end
     mkPressBoxes(scrn, first_scrn_press, rect_locs, tempcol); %draw correctness

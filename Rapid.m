@@ -33,19 +33,25 @@ function output = Rapid
         HideCursor;
         dev.zero_volts = mkCountdown(scrn, dev, c_misc);
         SCORE = GetSecs; % start timekeeping after getting everything set up
+        MAX_COMBO = 0;
 
         for ii = 1:length(tgt.trial)
             Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
             mkBoxes(scrn, dev.valid_indices);
-            drawCCCOMBO(scrn, CCCOMBO);
+            %drawCCCOMBO(scrn, CCCOMBO);
             Screen('Flip', scrn.window);
             [tempout{ii},CCCOMBO] = trialRapid(scrn, tgt, ptbimg,...
                                                dev, ii, CCCOMBO);
+            MAX_COMBO = ifelse(CCCOMBO > MAX_COMBO, CCCOMBO, MAX_COMBO);
         end
 
-        SCORE = 100000 - (round(GetSecs - SCORE) * 100); % total duration of the block
+        SCORE = 1000 - (round(GetSecs - SCORE) * 100); % total duration of the block
         Screen('TextSize', scrn.window, 40);
         DrawFormattedText(scrn.window, ['FINAL SCORE: ', num2str(SCORE)],...
+                          'center', 'center', scrn.txtcol);
+        Screen('Flip', scrn.window);
+        WaitSecs(2);
+        DrawFormattedText(scrn.window, ['MAXIMUM COMBO: ', num2str(MAX_COMBO)],...
                           'center', 'center', scrn.txtcol);
         Screen('Flip', scrn.window);
         WaitSecs(2);
