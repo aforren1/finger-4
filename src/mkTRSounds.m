@@ -11,7 +11,7 @@ function snd = mkTRSounds
     else
         readsound = @audioread;
     end
-    [right{1}, Fs] = readsound([basedir, 'beepTrain.wav']);
+    [right{1}, Fs] = readsound([basedir, 'beepTrainFast.wav']);
     [right{2}, Fs] = readsound([basedir, 'smw_coin.wav']);
 
     pamaster = PsychPortAudio('Open', [], 9, 1, 44100, 2, []);

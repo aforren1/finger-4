@@ -16,7 +16,7 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
     t_ref_copy = t_ref; % t_ref_copy is the time the audio comes on
     startDev(dev);
     img_frame = round((0.5 + tgt.t_img(ii))/scrn.ifi);
-    n_frames = round(2.4/scrn.ifi);
+    n_frames = round(1.8/scrn.ifi);
     new_press = nan(3,2);
     press_count = 1;
 
@@ -48,7 +48,7 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
     stopDev(dev);
     clearDev(dev);
     Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
-    t_diff = new_press(1, 2) - 1.5;
+    t_diff = new_press(1, 2) - 0.9;
     if isnan(t_diff) || t_diff > dev.PRESS_TOL
         tempstr = 'Too late!';
         tct = 0;
