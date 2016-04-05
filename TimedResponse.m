@@ -1,4 +1,4 @@
-function output = TimedResponse
+function output = TimedResponse(ui)
     % Rapid-fire training
     try % rethrow error after closing Screens, sounds, etc.
 
@@ -13,9 +13,9 @@ function output = TimedResponse
         [c_resp, c_scrn, c_misc] = mkConstants; % `c_` denotes consts
 
         %% Put together resources
-        ui = mkUI;
+        %ui = mkUI;
         scrn = mkScreen(ui.size, ui.skip, c_scrn);
-        tgt = mapTR(dlmread(['misc/tfiles/', ui.tgt, '.tgt']));
+        tgt = mapTR(dlmread(['misc/tfiles/', ui.tgt]));
         tgt.id = ui.id;
 
         rawimg = mkRawImg(tgt.img_type(1));

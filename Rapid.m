@@ -1,4 +1,4 @@
-function output = Rapid
+function output = Rapid(ui)
     % Rapid-fire training
     try % rethrow error after closing Screens, sounds, etc.
 
@@ -14,9 +14,9 @@ function output = Rapid
         CCCOMBO = 0;
 
         %% Put together resources
-        ui = mkUI;
+        %ui = mkUI;
         scrn = mkScreen(ui.size, ui.skip, c_scrn);
-        tgt = mapRapid(dlmread(['misc/tfiles/', ui.tgt, '.tgt']));
+        tgt = mapRapid(dlmread(['misc/tfiles/', ui.tgt]));
         tgt.id = ui.id;
 
         rawimg = mkRawImg(tgt.img_type(1));
@@ -38,7 +38,7 @@ function output = Rapid
         for ii = 1:length(tgt.trial)
             Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
             mkBoxes(scrn, dev.valid_indices);
-            %drawCCCOMBO(scrn, CCCOMBO);
+            %%drawCCCOMBO(scrn, CCCOMBO);
             Screen('Flip', scrn.window);
             [tempout{ii},CCCOMBO] = trialRapid(scrn, tgt, ptbimg,...
                                                dev, ii, CCCOMBO);
