@@ -72,7 +72,7 @@ function output = TimedResponse(ui)
         fprintf(fid, xchar);
         fclose(fid);
 
-        dlmwrite(filename, output);
+        dlmwrite(filename, output, '-append');
 
         % Wrap up residual things in the environment
         purge;
