@@ -55,7 +55,7 @@ function [output, CCCOMBO] = trialRapid(scrn, tgt, ptbimg,...
         % hooray!
         % trying more stringent feedback; don't penalize slowness, but don't
         % cccombo it either
-        if (new_press(1, 2) - t_img) < 500
+        if (new_press(1, 2) - t_img) < .5
             PsychPortAudio('Start', ifelse(CCCOMBO + 2 > 9, 9, CCCOMBO + 2),1,0,1);
             CCCOMBO = CCCOMBO + 1;
         end
