@@ -5,7 +5,7 @@ function err = testBoxes(kybrd)
         addpath src
         addpath misc/mfiles
         [resp_consts, scrn_consts, misc_consts] = mkConstants;
-        tgt = mapRapid(dlmread(['misc/tfiles/','testBehav_rapid','.tgt']));
+        tgt = mapRapid(dlmread(['misc/tfiles/','testrapid','.tgt']));
         fingers = unique(tgt.finger);
         dev = mkRespDev(kybrd, fingers, resp_consts);
         scrn = mkScreen(false, true, scrn_consts); % small, skip tests

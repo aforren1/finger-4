@@ -10,7 +10,7 @@ function err = testTrialPt1(kybrd)
         CCCOMBO = 10;
         ii = 1;
         [resp_consts, scrn_consts, misc_consts] = mkConstants;
-        tgt = mapRapid(dlmread(['misc/tfiles/','testBehav_rapid','.tgt']));
+        tgt = mapRapid(dlmread(['misc/tfiles/','testrapid','.tgt']));
         tgt.id = 55;
         fingers = unique(tgt.finger);
         dev = mkRespDev(kybrd, fingers, resp_consts);
@@ -20,12 +20,12 @@ function err = testTrialPt1(kybrd)
 
         Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
         mkBoxes(scrn, dev.valid_indices);
-        drawCCCOMBO(scrn, CCCOMBO);
+        %drawCCCOMBO(scrn, CCCOMBO);
         vbl = Screen('Flip', scrn.window);
 
         Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
         mkBoxes(scrn, dev.valid_indices);
-        drawCCCOMBO(scrn, CCCOMBO);
+        %drawCCCOMBO(scrn, CCCOMBO);
         Priority(scrn.priority);
         Screen('DrawTexture', scrn.window, ptbimg(tgt.finger(ii)));
 
@@ -79,7 +79,7 @@ function err = testTrialPt1(kybrd)
         clearDev(dev);
         stopDev(dev);
         if any(~isnan(new_press(:,1)))
-            drawCCCOMBO(scrn, CCCOMBO);
+            %drawCCCOMBO(scrn, CCCOMBO);
             Screen('DrawTexture', scrn.window, ptbimg(tgt.finger(ii)));
             rect_locs = mkBoxes(scrn, dev.valid_indices);
             mkPressBoxes(scrn, update_scrn_press, rect_locs, scrn.green);

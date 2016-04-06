@@ -1,10 +1,15 @@
-function output = trialTR(scrn, tgt, ptbimg, dev, ii)
+function [output, CCCOMBO] = trialTR(scrn, tgt, ptbimg, dev, ii, CCCOMBO)
 
     Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
     rect_locs = mkBoxes(scrn, dev.valid_indices);
     t_ref = Screen('Flip', scrn.window);
     update_scrn_press = zeros(1, length(dev.valid_indices));
     first_scrn_press = update_scrn_press;
+
+    n_frames = round(1.5/scrn.ifi);
+    new_press = nan(3,2);
+    press_count = 1;
+    no_img = tgt.finger(ii) == -1; % decide -1 or NaN for missing
 
     % think about this
     Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
@@ -15,16 +20,18 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
     t_ref = Screen('Flip', scrn.window, t_ref + 0.5*scrn.ifi);
     t_ref_copy = t_ref; % t_ref_copy is the time the audio comes on
     startDev(dev);
-    img_frame = round((0.5 + tgt.t_img(ii))/scrn.ifi);
-    n_frames = round(1.8/scrn.ifi);
-    new_press = nan(3,2);
-    press_count = 1;
+    if ~no_img
+        img_frame = round((0.5 + tgt.t_img(ii))/scrn.ifi);
+    else
+        img_frame = NaN;
+    end
 
     for frame = 1:n_frames
         Screen('FillRect', scrn.window, scrn.colour);
         mkBoxes(scrn, dev.valid_indices);
 
-        if frame >= img_frame
+        % frame >= NaN always false
+        if frame >= img_frame && ~no_img
             Screen('DrawTexture', scrn.window, ptbimg(tgt.finger(ii)));
         end
 
@@ -42,46 +49,62 @@ function output = trialTR(scrn, tgt, ptbimg, dev, ii)
         t_ref = Screen('Flip', scrn.window, t_ref + 0.5 * scrn.ifi);
     end
 
+    % clean up post-trial
     Priority(0);
-
     new_press(:,2) = new_press(:,2) - t_ref_copy - .5; % should be around 2 for correct
     stopDev(dev);
     clearDev(dev);
+
+    % start making feedback screen
     Screen('FillRect', scrn.window, scrn.colour); % 'wipe' screen
+    rect_locs = mkBoxes(scrn, dev.valid_indices);
+
+
+    % feedback about correctness
+    if ~no_img
+        Screen('DrawTexture', scrn.window, ptbimg(tgt.finger(ii)));
+        if new_press(1,1) ~= tgt.finger(ii)
+            tempcol = scrn.red;
+            mkPressBoxes(scrn, dev.valid_indices' == tgt.finger(ii),...
+                         rect_locs, scrn.blue);
+            tct = 0;
+        else
+            tempcol = scrn.green;
+            tct = 1;
+        end
+    else % no image, any press is the right press
+        tempcol = scrn.green;
+        tct = 1;
+    end
+    mkPressBoxes(scrn, first_scrn_press, rect_locs, tempcol); %draw correctness
+
+    % feedback about timing
     t_diff = new_press(1, 2) - 0.9;
     if isnan(t_diff) || t_diff > dev.PRESS_TOL
         tempstr = 'Too late!';
         tct = 0;
+        mkSmallBoxes(scrn, first_scrn_press, rect_locs, scrn.colour);
     elseif t_diff < -dev.PRESS_TOL
         tempstr = 'Too early!';
         tct = 0;
+        mkSmallBoxes(scrn, first_scrn_press, rect_locs, scrn.colour);
     else
         tempstr = 'Good timing!';
-        tct = 1;
-    end
-
-    if new_press(1,1) ~= tgt.finger(ii)
-        tempstr2 = ' Wrong button!';
-        tempcol = scrn.red;
-        mkPressBoxes(scrn, dev.valid_indices' == tgt.finger(ii),...
-                     rect_locs, scrn.blue)
-    else
-        tempstr2 = ' Right button!';
-        tempcol = scrn.green;
         tct = tct + 1;
     end
 
-    rect_locs = mkBoxes(scrn, dev.valid_indices);
-    Screen('DrawTexture', scrn.window, ptbimg(tgt.finger(ii)));
-    mkPressBoxes(scrn, first_scrn_press, rect_locs, tempcol);
-    DrawFormattedText(scrn.window, [tempstr, tempstr2], 'center',...
-                  scrn.TXT_RATIO*scrn.size(4), scrn.txtcol);
+    DrawFormattedText(scrn.window, tempstr, 'center',...
+                      scrn.TXT_RATIO*scrn.size(4), scrn.txtcol);
     Screen('Flip', scrn.window);
     if tct > 1
-        PsychPortAudio('Start', 2, 1, t_ref + scrn.ifi, 0); % 1 is beep train
+        % good job, keep that train rolling
+        PsychPortAudio('Start', ifelse(CCCOMBO + 2 > 9, 9, CCCOMBO + 2),1,0,1);
+        CCCOMBO = CCCOMBO + 1;
+    else
+        CCCOMBO = 0;
     end
 
-    WaitSecs(.4);
+    WaitSecs(.3);
 
     %coerce into frame
     if strcmpi(dev.type, 'keyboard')

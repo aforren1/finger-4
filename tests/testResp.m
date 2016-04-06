@@ -6,7 +6,7 @@ try
     addpath misc/mfiles
     CCCOMBO = 5;
     [resp_consts, scrn_consts, misc_consts] = mkConstants;
-    tgt = mapRapid(dlmread(['misc/tfiles/','testBehav_rapid','.tgt']));
+    tgt = mapRapid(dlmread(['misc/tfiles/','testrapid','.tgt']));
     fingers = unique(tgt.finger);
     dev = mkRespDev(kybrd, fingers, resp_consts);
     if strcmpi(dev.type, 'keyboard')
