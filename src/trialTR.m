@@ -6,7 +6,7 @@ function [output, CCCOMBO] = trialTR(scrn, tgt, ptbimg, dev, ii, CCCOMBO)
     update_scrn_press = zeros(1, length(dev.valid_indices));
     first_scrn_press = update_scrn_press;
 
-    n_frames = round(1.7/scrn.ifi);
+    n_frames = round(1.5/scrn.ifi);
     new_press = nan(3,2);
     press_count = 1;
     no_img = tgt.finger(ii) == -1; % decide -1 or NaN for missing
@@ -22,13 +22,16 @@ function [output, CCCOMBO] = trialTR(scrn, tgt, ptbimg, dev, ii, CCCOMBO)
     startDev(dev);
     if ~no_img
         img_frame = round((0.5 + tgt.t_img(ii))/scrn.ifi);
+    else
+        img_frame = NaN;
+    end
 
     for frame = 1:n_frames
         Screen('FillRect', scrn.window, scrn.colour);
         mkBoxes(scrn, dev.valid_indices);
 
         % frame >= NaN always false
-        if frame >= img_frame & ~no_img
+        if frame >= img_frame && ~no_img
             Screen('DrawTexture', scrn.window, ptbimg(tgt.finger(ii)));
         end
 
