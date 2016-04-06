@@ -26,7 +26,7 @@ function output = TimedResponse(ui)
             ptbimg([tgt.swap2 tgt.swap1]) = ptbimg([tgt.swap1 tgt.swap2]);
         end
 
-        dev = mkRespDev(ui.kybrd, unique(tgt.finger), c_resp);
+        dev = mkRespDev(ui.kybrd, unique(tgt.finger(tgt.finger > 0)), c_resp);
         informationalScreen(scrn, 'tr', dev.valid_keys);
 
         mkTRSounds;

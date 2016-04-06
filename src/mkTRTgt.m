@@ -9,6 +9,7 @@ function mkTRTgt(day, block, easy, swapped, img_type, reps)
  % out_path is the output path
  % filename is determined by args, eg. 'dy1_bk1_ez1_sw0_sh1.tgt' would be
  % 'day 1, block 1, easy, no swaps, shapes'.
+addpath('misc/mfiles');
 out_path = '~/Documents/BLAM/finger-4/misc/tfiles/'; % change for your comp!
 seed = day * block; % avoid explicit patterns in seeding
 %rng(seed);
@@ -31,6 +32,17 @@ else
     combos(:, 3:4) = 0;
     swapped2 = 0;
 end
+
+% add catch trials
+n_catch = floor(combo_size/10);
+randind = randi([-2 2], 1, n_catch);
+catchind = (10:10:combo_size) + randind;
+if catchind(end) > combo_size
+    catchind(end) = combo_size;
+end
+catch_trial = [-1 -1 -1 -1];
+combos = insertrows(combos, catch_trial, catchind);
+combo_size = size(combos, 1);
 
 % day, block, trial, easy, swapped, img_type, tgt finger,
 % time, swap1, swap2
