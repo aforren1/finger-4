@@ -27,7 +27,8 @@ function output = Rapid(ui)
         % make the response device and figure out which are relevant
         dev = mkRespDev(ui.kybrd, unique(tgt.finger), c_resp);
         mkRapidSounds;
-        
+        informationalScreen(scrn, 'rapid', dev.valid_keys);
+
         output = cell(1, max(tgt.trial));
         HideCursor;
         dev.zero_volts = mkCountdown(scrn, dev, c_misc);

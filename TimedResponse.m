@@ -27,6 +27,7 @@ function output = TimedResponse(ui)
         end
 
         dev = mkRespDev(ui.kybrd, unique(tgt.finger), c_resp);
+        informationalScreen(scrn, 'tr', dev.valid_keys);
 
         mkTRSounds;
         output = cell(1, max(tgt.trial));

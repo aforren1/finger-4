@@ -13,12 +13,7 @@ When you are located in the "finger-4" directory.
 
 
 To start an experiment, open MATLAB or Octave and change your directory (via `cd` or the menu) to the
-top-level "finger-4" directory. Then, type either `Rapid;` or `TimedResponse;`
-to start the experiment. The program will prompt you for an id (any integer,
-as long as you keep it consistent), the `.tgt` file (without the suffix),
-full screen or not (`true` or `false`), and whether the keyboard is used or not
-(alternatively, the force transducers are expected).
-
+top-level "finger-4" directory. Then, type `Experiment;`to start the experiment. The program will prompt you for an id (any integer, as long as you keep it consistent), the day (probably 1-5), and the block number (probably 1-10). From there, the program will pick the appropriate block.
 
 `.tgt` files for the timed response follow the pattern:
 
@@ -39,4 +34,4 @@ and a valid training one would be
 
 > dy1_bk3_sw0_sh1
 
-The data file will be automatically saved to the `/data` directory. Keep an eye on the "misc/tfiles" directory for which ones to do.
+The data file will be automatically saved to the `/data` directory. Keep an eye on the data directory to make sure that you don't do one twice!

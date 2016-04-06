@@ -57,6 +57,7 @@ l_valid = length(valid_keys);
         dev.device.inputType = 'SingleEnded';
         temp_pos = [0 8 1 9 2 10 3 11 4 12]; % setup for nidaq
         dev.valid_indices = temp_pos(valid_keys);
+        dev.valid_keys = NaN;
         addchannel(dev.device, dev.valid_indices);
 
         set(dev.device, 'SampleRate', 200);

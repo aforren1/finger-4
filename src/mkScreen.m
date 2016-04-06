@@ -34,7 +34,7 @@ function scrn = mkScreen(size, skip, scrn_consts)
         [scrn.window, scrn.size] = Screen('OpenWindow', scrn.num, scrn.colour);
     else
         [scrn.window, scrn.size] = Screen('OpenWindow', scrn.num,...
-        scrn.colour, [400 400 800 800]);
+        scrn.colour, [500 500 900 900]);
     end
     [scrn.center(1), scrn.center(2)] = RectCenter(scrn.size); %x,y of center
     Screen('BlendFunction', scrn.window, ...
