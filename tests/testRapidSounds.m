@@ -5,7 +5,7 @@ function err = testRapidSounds
     try
         addpath src
         addpath misc/mfiles
-        snd = mkRapidSounds;
+        snd = mkTRSounds;
         for ii = 1:length(snd)
             t0 = GetSecs;
             t1 = PsychPortAudio('Start', snd(ii), 1, 0, 1); % reps, when, waitforstart

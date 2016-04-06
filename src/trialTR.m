@@ -94,7 +94,8 @@ function [output, CCCOMBO] = trialTR(scrn, tgt, ptbimg, dev, ii, CCCOMBO)
                       scrn.TXT_RATIO*scrn.size(4), scrn.txtcol);
     Screen('Flip', scrn.window);
     if tct > 1
-        PsychPortAudio('Start', 2, 1, t_ref + scrn.ifi, 0); % 1 is beep train
+        % good job, keep that train rolling
+        PsychPortAudio('Start', ifelse(CCCOMBO + 2 > 9, 9, CCCOMBO + 2),1,0,1);
         CCCOMBO = CCCOMBO + 1;
     else
         CCCOMBO = 0;
