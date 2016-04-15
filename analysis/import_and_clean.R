@@ -19,17 +19,16 @@ importRapid <- function() {
                         'swapped', 'img_type', 'finger',
                         'swap1', 'swap2', 'resp1', 't_resp1',
                         'resp2', 't_resp2', 'resp3', 't_resp3')
-  final_dat$day <- factor(final_dat$day)
-  final_dat$swapped <- factor(final_dat$swapped)
-  final_dat$img_type <- factor(final_dat$img_type)
-  final_dat$finger <- factor(final_dat$finger)
+  # final_dat$day <- factor(final_dat$day)
+  # final_dat$swapped <- factor(final_dat$swapped)
+  # final_dat$img_type <- factor(final_dat$img_type)
+  # final_dat$finger <- factor(final_dat$finger)
   final_dat[final_dat == -1] <- NA
   final_dat[final_dat == 'NaN'] <- NA
   nas <- apply(final_dat, 1, function(z) sum(is.na(z)))
   final_dat$correct <- ifelse(final_dat$resp1 == final_dat$finger, 1, 0)
   final_dat$n_tries <- ifelse(nas == 6, 0, ifelse(nas == 4, 1, ifelse(nas == 2, 2, 3)))
-
-  final_dat
+  final_dat[order(final_dat$t_resp1),]
 }
 
 
@@ -51,24 +50,24 @@ importTR <- function() {
                         'swapped', 'img_type', 'finger', 't_img',
                         'swap1', 'swap2', 'resp1', 't_resp1', 
                         'resp2', 't_resp2', 'resp3', 't_resp3')
-  final_dat$day <- factor(final_dat$day)
-  final_dat$swapped <- factor(final_dat$swapped)
-  final_dat$img_type <- factor(final_dat$img_type)
-  final_dat$finger <- factor(final_dat$finger)
+  # final_dat$day <- factor(final_dat$day)
+  # final_dat$swapped <- factor(final_dat$swapped)
+  # final_dat$img_type <- factor(final_dat$img_type)
+  # final_dat$finger <- factor(final_dat$finger)
   final_dat$resp1[which(final_dat$resp1 > 10)] <- NA # purge troublesome ones now
   final_dat[final_dat == -1] <- NA
   final_dat[final_dat == 'NaN'] <- NA
-  final_dat$resp1 <- factor(final_dat$resp1)
+  #final_dat$resp1 <- factor(final_dat$resp1)
   nas <- apply(final_dat, 1, function(z) sum(is.na(z)))
   final_dat$correct <- ifelse(final_dat$resp1 == final_dat$finger, 1, 0)
   final_dat$t_prep <- final_dat$t_resp1 - final_dat$t_img
   final_dat$n_tries <- ifelse(nas == 6, 0, ifelse(nas == 4, 1, ifelse(nas == 2, 2, 3)))
-  final_dat
+  final_dat[order(final_dat$t_prep),]
   
 }
 
 
-timeSlide <- function(x, y, step_size = 0.005, window_size = 0.05) {
+timeSlide <- function(x, y, step_size = 0.001, window_size = 0.05) {
   
   time_grid <- seq(min(x, na.rm =TRUE), max(x, na.rm = TRUE), by = step_size)
   out_grid <- matrix(nrow = length(time_grid), ncol = 3)
@@ -82,5 +81,5 @@ timeSlide <- function(x, y, step_size = 0.005, window_size = 0.05) {
     out_grid[ii, 2] <- mean(x[valid_times], na.rm = TRUE)
     out_grid[ii, 3] <- mean(y[valid_times], na.rm = TRUE)
   }
-  out_grid
+  data.frame(t_prep = out_grid[,1], t_prep_smooth = out_grid[,2], correct = out_grid[,3])
 }

@@ -9,7 +9,11 @@ function snd = mkRapidSounds
     if isOctave
         readsound = @wavread;
     else
-        readsound = @audioread;
+        if verLessThan('matlab', '8')
+            readsound = @wavread;
+        else
+            readsound = @audioread;
+        end
     end
     [right{1}, Fs] = readsound([basedir, 'beep.wav']);
     [right{2}, Fs] = readsound([basedir, 'orch1.wav']);

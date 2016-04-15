@@ -31,7 +31,7 @@ function [output, CCCOMBO] = trialTR(scrn, tgt, ptbimg, dev, ii, CCCOMBO)
         mkBoxes(scrn, dev.valid_indices);
 
         % frame >= NaN always false
-        if frame >= img_frame && ~no_img
+        if frame >= img_frame
             Screen('DrawTexture', scrn.window, ptbimg(tgt.finger(ii)));
         end
 

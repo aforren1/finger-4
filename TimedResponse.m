@@ -23,7 +23,7 @@ function output = TimedResponse(ui)
         rawimg = mkRawImg(tgt.img_type(1));
         ptbimg = mkPtbImg(rawimg, scrn);
         if tgt.swapped % swap images
-            ptbimg([tgt.swap2 tgt.swap1]) = ptbimg([tgt.swap1 tgt.swap2]);
+            ptbimg([tgt.swap2 tgt.swap1]) = ptbimg([tgt.swap1(1) tgt.swap2(1)]);
         end
 
         dev = mkRespDev(ui.kybrd, unique(tgt.finger(tgt.finger > 0)), c_resp);
